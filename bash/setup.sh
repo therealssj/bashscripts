@@ -1,3 +1,12 @@
+### other stuff####
+## https://easyengine.io/tutorials/linux/increase-open-files-limit/
+##http://wolfsrudel.biz/2015/10/speedup-wordpress-with-nginx-hhvm-fastcgi-cache-and-w3-total-cache-on-debian-8/
+## http://thereluctantdeveloper.com/2015/12/quick-and-dirty-php-70-set-up-on-ubuntu-1404-with-apcu
+## https://calomel.org/
+## https://www.digitalocean.com/community/tutorials/how-to-configure-bind-as-a-caching-or-forwarding-dns-server-on-ubuntu-14-04
+## apt-get install php7.0-xml
+fastcgi_cache_use_stale error timeout invalid_header http_500;
+fastcgi_ignore_headers Cache-Control Expires;
 #!/bin/bash
 ########################### Variables #############################
 workerprocesses=$(grep processor /proc/cpuinfo | wc -l)
@@ -59,7 +68,7 @@ server {
         include /usr/local/nginx/conf/gzip.conf;
 
         location @fallback {
-        fastcgi_pass unix:/var/run/php7.0-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
         fastcgi_index index.php;
         include /usr/local/nginx/conf/fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -91,7 +100,7 @@ location ~ \.(hh|php)$ {
 servercheck='
 PIDhhvm=/var/run/hhvm/pid
 PIDnginx=/var/run/nginx.pid
-PIDfpm=/var/run/php7.0-fpm.pid
+PIDfpm=/var/run/php/php7.0-fpm.pid
 if [ ! -f $PIDhhvm ]; then
         echo "$(date) Starting hhvm..."
         echo "$(date) Starting hhvm..." >> ~/server.log
